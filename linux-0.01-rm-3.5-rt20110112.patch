@@ -1,0 +1,271 @@
+diff -rc linux-0.01-rm-3.5.orig/fs/Makefile linux-0.01-rm-3.5/fs/Makefile
+*** linux-0.01-rm-3.5.orig/fs/Makefile	2008-01-14 05:58:48.000000000 +0900
+--- linux-0.01-rm-3.5/fs/Makefile	2011-01-12 15:19:16.412242974 +0900
+***************
+*** 3,9 ****
+  CC	=gcc
+  LD	=ld
+  CFLAGS	=-Wall -O -fstrength-reduce -fomit-frame-pointer \
+! 	 -fno-stack-protector -nostdinc -I../include
+  CPP	=gcc -E -nostdinc -I../include
+  
+  .c.s:
+--- 3,9 ----
+  CC	=gcc
+  LD	=ld
+  CFLAGS	=-Wall -O -fstrength-reduce -fomit-frame-pointer \
+! 	 -fno-stack-protector -nostdinc -fno-builtin -g -I../include
+  CPP	=gcc -E -nostdinc -I../include
+  
+  .c.s:
+diff -rc linux-0.01-rm-3.5.orig/fs/stat.c linux-0.01-rm-3.5/fs/stat.c
+*** linux-0.01-rm-3.5.orig/fs/stat.c	2008-01-14 05:58:48.000000000 +0900
+--- linux-0.01-rm-3.5/fs/stat.c	2011-01-10 22:17:58.000062644 +0900
+***************
+*** 102,108 ****
+  
+  int sys_lstat64(char* filename, struct stat * statbuf)
+  {
+! 	return sys_stat64(filename,statbuf);
+  }
+  
+  int sys_oldstat()
+--- 102,108 ----
+  
+  int sys_lstat64(char* filename, struct stat * statbuf)
+  {
+! 	return sys_stat64(filename, (struct stat64 *)statbuf);
+  }
+  
+  int sys_oldstat()
+diff -rc linux-0.01-rm-3.5.orig/include/asm/segment.h linux-0.01-rm-3.5/include/asm/segment.h
+*** linux-0.01-rm-3.5.orig/include/asm/segment.h	2008-01-14 05:58:48.000000000 +0900
+--- linux-0.01-rm-3.5/include/asm/segment.h	2011-01-12 14:13:26.278253365 +0900
+***************
+*** 24,30 ****
+  
+  extern inline void put_fs_byte(char val,char *addr)
+  {
+! __asm__ ("movb %0,%%fs:%1"::"r" (val),"m" (*addr));
+  }
+  
+  extern inline void put_fs_word(short val,short * addr)
+--- 24,30 ----
+  
+  extern inline void put_fs_byte(char val,char *addr)
+  {
+! __asm__ ("movb %0,%%fs:%1"::"q" (val),"m" (*addr));
+  }
+  
+  extern inline void put_fs_word(short val,short * addr)
+diff -rc linux-0.01-rm-3.5.orig/kernel/console.c linux-0.01-rm-3.5/kernel/console.c
+*** linux-0.01-rm-3.5.orig/kernel/console.c	2008-01-14 05:58:48.000000000 +0900
+--- linux-0.01-rm-3.5/kernel/console.c	2011-01-12 15:22:17.037152184 +0900
+***************
+*** 76,89 ****
+  			__asm__ __volatile("cld\n\t"
+  				"rep\n\t"
+  				"movsl\n\t"
+! 				"movl columns,%1\n\t"
+  				"rep\n\t"
+  				"stosw"
+  				:"=&a" (d0), "=&c" (d1), "=&D" (d2), "=&S" (d3)
+  				:"0" (0x0720),
+  				 "1" ((lines-1)*columns>>1),
+  				 "2" (SCREEN_START),
+! 				 "3" (origin)
+  				:"memory");
+  
+  			scr_end -= origin-SCREEN_START;
+--- 76,90 ----
+  			__asm__ __volatile("cld\n\t"
+  				"rep\n\t"
+  				"movsl\n\t"
+! 				"movl %[columns],%1\n\t"
+  				"rep\n\t"
+  				"stosw"
+  				:"=&a" (d0), "=&c" (d1), "=&D" (d2), "=&S" (d3)
+  				:"0" (0x0720),
+  				 "1" ((lines-1)*columns>>1),
+  				 "2" (SCREEN_START),
+! 				 "3" (origin),
+! 				 [columns] "r" (columns)
+  				:"memory");
+  
+  			scr_end -= origin-SCREEN_START;
+***************
+*** 106,119 ****
+  		__asm__ __volatile__("cld\n\t"
+  			"rep\n\t"
+  			"movsl\n\t"
+! 			"movl columns,%%ecx\n\t"
+  			"rep\n\t"
+  			"stosw"
+  			:"=&a" (d0), "=&c" (d1), "=&D" (d2), "=&S" (d3)
+  			:"0" (0x0720),
+  			"1" ((bottom-top-1)*columns>>1),
+  			"2" (origin+(columns<<1)*top),
+! 			"3" (origin+(columns<<1)*(top+1))
+  			:"memory");
+  	}
+  }
+--- 107,121 ----
+  		__asm__ __volatile__("cld\n\t"
+  			"rep\n\t"
+  			"movsl\n\t"
+! 			"movl %[columns],%%ecx\n\t"
+  			"rep\n\t"
+  			"stosw"
+  			:"=&a" (d0), "=&c" (d1), "=&D" (d2), "=&S" (d3)
+  			:"0" (0x0720),
+  			"1" ((bottom-top-1)*columns>>1),
+  			"2" (origin+(columns<<1)*top),
+! 			"3" (origin+(columns<<1)*(top+1)),
+! 			[columns] "r" (columns)
+  			:"memory");
+  	}
+  }
+***************
+*** 125,138 ****
+  		"rep\n\t"
+  		"movsl\n\t"
+  		"addl $2,%%edi\n\t"	/* %edi has been decremented by 4 */
+! 		"movl columns,%%ecx\n\t"
+  		"rep\n\t"
+  		"stosw"
+  		:"=&a" (d0), "=&c" (d1), "=&D" (d2), "=&S" (d3)
+  		:"0" (0x0720),
+  		"1" ((bottom-top-1)*columns>>1),
+  		"2" (origin+(columns<<1)*bottom-4),
+! 		"3" (origin+(columns<<1)*(bottom-1)-4)
+  		:"memory");
+  }
+  
+--- 127,141 ----
+  		"rep\n\t"
+  		"movsl\n\t"
+  		"addl $2,%%edi\n\t"	/* %edi has been decremented by 4 */
+! 		"movl %[columns],%%ecx\n\t"
+  		"rep\n\t"
+  		"stosw"
+  		:"=&a" (d0), "=&c" (d1), "=&D" (d2), "=&S" (d3)
+  		:"0" (0x0720),
+  		"1" ((bottom-top-1)*columns>>1),
+  		"2" (origin+(columns<<1)*bottom-4),
+! 		"3" (origin+(columns<<1)*(bottom-1)-4),
+! 		[columns] "r" (columns)
+  		:"memory");
+  }
+  
+diff -rc linux-0.01-rm-3.5.orig/kernel/fork.c linux-0.01-rm-3.5/kernel/fork.c
+*** linux-0.01-rm-3.5.orig/kernel/fork.c	2008-01-14 05:58:48.000000000 +0900
+--- linux-0.01-rm-3.5/kernel/fork.c	2011-01-12 15:14:01.272244170 +0900
+***************
+*** 70,76 ****
+--- 70,80 ----
+  	p = (struct task_struct *) get_free_page();
+  	if (!p)
+  		return -EAGAIN;
++ #if 0 /* This statement breaks *p memory (gcc 4.4.5). */
+  	*p = *current;	/* NOTE! this doesn't copy the supervisor stack */
++ #else
++ 	memcpy(p, current, sizeof(struct task_struct));
++ #endif
+  	p->state = TASK_RUNNING;
+  	p->pid = last_pid;
+  	p->father = current->pid;
+diff -rc linux-0.01-rm-3.5.orig/kernel/Makefile linux-0.01-rm-3.5/kernel/Makefile
+*** linux-0.01-rm-3.5.orig/kernel/Makefile	2008-01-14 05:58:48.000000000 +0900
+--- linux-0.01-rm-3.5/kernel/Makefile	2011-01-12 15:22:49.318242168 +0900
+***************
+*** 9,18 ****
+  AR	=ar
+  AS	=as
+  LD	=ld
+! LDFLAGS	=-s -x
+  CC	=gcc
+  CFLAGS	=-Wall -O -fstrength-reduce -fomit-frame-pointer  \
+! 	-finline-functions -fno-stack-protector -nostdinc -I../include
+  CPP	=gcc -E -nostdinc -I../include
+  
+  .c.s:
+--- 9,18 ----
+  AR	=ar
+  AS	=as
+  LD	=ld
+! LDFLAGS	=-g #-s -x
+  CC	=gcc
+  CFLAGS	=-Wall -O -fstrength-reduce -fomit-frame-pointer  \
+! 	-finline-functions -fno-stack-protector -nostdinc -fno-builtin -g -I../include
+  CPP	=gcc -E -nostdinc -I../include
+  
+  .c.s:
+diff -rc linux-0.01-rm-3.5.orig/lib/Makefile linux-0.01-rm-3.5/lib/Makefile
+*** linux-0.01-rm-3.5.orig/lib/Makefile	2008-01-14 05:58:48.000000000 +0900
+--- linux-0.01-rm-3.5/lib/Makefile	2011-01-12 15:20:03.508243026 +0900
+***************
+*** 9,18 ****
+  AR	=ar
+  AS	=as
+  LD	=ld
+! LDFLAGS	=-s -x
+  CC	=gcc
+  CFLAGS	=-Wall -O -fstrength-reduce -fomit-frame-pointer \
+! 	-finline-functions -fno-stack-protector -nostdinc -I../include
+  CPP	=gcc -E -nostdinc -I../include
+  
+  .c.s:
+--- 9,18 ----
+  AR	=ar
+  AS	=as
+  LD	=ld
+! LDFLAGS	=-g #-s -x
+  CC	=gcc
+  CFLAGS	=-Wall -O -fstrength-reduce -fomit-frame-pointer \
+! 	-finline-functions -fno-stack-protector -nostdinc -fno-builtin -g -I../include
+  CPP	=gcc -E -nostdinc -I../include
+  
+  .c.s:
+diff -rc linux-0.01-rm-3.5.orig/Makefile linux-0.01-rm-3.5/Makefile
+*** linux-0.01-rm-3.5.orig/Makefile	2008-01-24 22:17:39.000000000 +0900
+--- linux-0.01-rm-3.5/Makefile	2011-01-12 15:19:49.900242989 +0900
+***************
+*** 10,18 ****
+  
+  AS	=as
+  LD	=ld
+! LDFLAGS	=-s -x -M -Ttext 0 -e startup_32
+  CC	=gcc
+! CFLAGS	=-Wall -O -fstrength-reduce -fomit-frame-pointer -fno-stack-protector 
+  CPP	=gcc -E -nostdinc -Iinclude
+  
+  ARCHIVES=kernel/kernel.o mm/mm.o fs/fs.o
+--- 10,19 ----
+  
+  AS	=as
+  LD	=ld
+! LDFLAGS	=-M -Ttext 0 -e startup_32
+! #LDFLAGS	=-s -x -M -Ttext 0 -e startup_32
+  CC	=gcc
+! CFLAGS	=-Wall -O -fstrength-reduce -fomit-frame-pointer -fno-stack-protector -fno-builtin -g
+  CPP	=gcc -E -nostdinc -Iinclude
+  
+  ARCHIVES=kernel/kernel.o mm/mm.o fs/fs.o
+diff -rc linux-0.01-rm-3.5.orig/mm/Makefile linux-0.01-rm-3.5/mm/Makefile
+*** linux-0.01-rm-3.5.orig/mm/Makefile	2008-01-14 05:58:48.000000000 +0900
+--- linux-0.01-rm-3.5/mm/Makefile	2011-01-12 15:18:38.900966175 +0900
+***************
+*** 1,6 ****
+  CC	=gcc
+  CFLAGS	=-O -Wall -fstrength-reduce  -fomit-frame-pointer \
+! 	-fno-stack-protector -finline-functions -nostdinc -I../include
+  AS	=as
+  AR	=ar
+  LD	=ld
+--- 1,6 ----
+  CC	=gcc
+  CFLAGS	=-O -Wall -fstrength-reduce  -fomit-frame-pointer \
+! 	-fno-stack-protector -finline-functions -nostdinc -fno-builtin -g -I../include
+  AS	=as
+  AR	=ar
+  LD	=ld
