@@ -68,6 +68,9 @@ boot/boot:	boot/boot.s tools/system
 	$(AS86) -o boot/boot.o tmp.s
 	rm -f tmp.s
 	$(LD86) -s -o boot/boot boot/boot.o
+	
+run:
+	qemu-system-i386 -drive format=raw,file=Image,index=0,if=floppy -boot a -hdb hd_oldlinux.img -m 8 -machine pc-0.10
 
 clean:
 	rm -f Image System.map tmp_make boot/boot core
@@ -96,3 +99,4 @@ init/main.o : init/main.c include/unistd.h include/sys/stat.h \
   include/linux/sched.h include/linux/head.h include/linux/fs.h \
   include/linux/mm.h include/asm/system.h include/asm/io.h include/stddef.h \
   include/stdarg.h include/fcntl.h 
+

@@ -1,0 +1,15 @@
+First of all, thanks Mariuz!
+
+After a lot of time, I managed to compile this revised version of the
+first kernel on machines with Ubuntu 18.04 64 and 32 bit versions. So you can compile them and try them on 64 and 32 bit Intel machines.
+
+I also attach files produced by make that seem to have a lot of warnings when compiling, but the kernel runs in both emulators: QEMU ver. 2.11.1 and Bochs ver 2.6. and that was a great success for me ...
+
+I also uploaded the bochsrc.txt file so that the bochs runs from the command line from the root where the kernel is and qemu runs from the cmd line by the command make run
+
+The error I noticed after booting the system is that the application
+vim (if you try) has a problem with opening files.
+I will try to fix this.
+
+Enjoy work and improvement
+sincerely Isoux

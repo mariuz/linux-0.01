@@ -1,0 +1,139 @@
+as --32  --32 -o boot/head.o boot/head.s
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -fno-stack-protector -fno-builtin -g -m32 \
+-nostdinc -Iinclude -c -o init/main.o init/main.c
+(cd kernel; make)
+make[1]: Entering directory '/home/makisa/Downloads/LINUX-0.01/linux-0.01-master/kernel'
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -finline-functions -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o sched.o sched.c
+as --32 -o system_call.o system_call.s
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -finline-functions -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o traps.o traps.c
+as --32 -o asm.o asm.s
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -finline-functions -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o fork.o fork.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -finline-functions -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o panic.o panic.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -finline-functions -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o printk.o printk.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -finline-functions -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o vsprintf.o vsprintf.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -finline-functions -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o tty_io.o tty_io.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -finline-functions -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o console.o console.c
+as --32 -o keyboard.o keyboard.s
+as --32 -o rs_io.o rs_io.s
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -finline-functions -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o hd.o hd.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -finline-functions -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o sys.o sys.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -finline-functions -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o exit.o exit.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -finline-functions -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o serial.o serial.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -finline-functions -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o mktime.o mktime.c
+ld -m  elf_i386  -r -o kernel.o sched.o system_call.o traps.o asm.o fork.o panic.o printk.o vsprintf.o tty_io.o console.o keyboard.o rs_io.o hd.o sys.o exit.o serial.o mktime.o
+sync
+make[1]: Leaving directory '/home/makisa/Downloads/LINUX-0.01/linux-0.01-master/kernel'
+(cd mm; make)
+make[1]: Entering directory '/home/makisa/Downloads/LINUX-0.01/linux-0.01-master/mm'
+gcc -Wall -O -std=gnu89 -fstrength-reduce  -fomit-frame-pointer -m32 -fno-stack-protector -finline-functions -nostdinc -fno-builtin -g -I../include \
+-c -o memory.o memory.c
+as --32 -o page.o page.s
+ld -m  elf_i386  -r -o mm.o memory.o page.o
+make[1]: Leaving directory '/home/makisa/Downloads/LINUX-0.01/linux-0.01-master/mm'
+(cd fs; make)
+make[1]: Entering directory '/home/makisa/Downloads/LINUX-0.01/linux-0.01-master/fs'
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o open.o open.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o read_write.o read_write.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o inode.o inode.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o file_table.o file_table.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o buffer.o buffer.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o super.o super.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o block_dev.o block_dev.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o char_dev.o char_dev.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o file_dev.o file_dev.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o stat.o stat.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o exec.o exec.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o pipe.o pipe.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o namei.o namei.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o bitmap.o bitmap.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o fcntl.o fcntl.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o ioctl.o ioctl.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o tty_ioctl.o tty_ioctl.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o truncate.o truncate.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o sys_getdents.o sys_getdents.c
+ld -m  elf_i386 -r -o fs.o open.o read_write.o inode.o file_table.o buffer.o super.o block_dev.o char_dev.o file_dev.o stat.o exec.o pipe.o namei.o bitmap.o fcntl.o ioctl.o tty_ioctl.o truncate.o sys_getdents.o
+make[1]: Leaving directory '/home/makisa/Downloads/LINUX-0.01/linux-0.01-master/fs'
+(cd lib; make)
+make[1]: Entering directory '/home/makisa/Downloads/LINUX-0.01/linux-0.01-master/lib'
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -finline-functions -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o ctype.o ctype.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -finline-functions -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o _exit.o _exit.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -finline-functions -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o open.o open.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -finline-functions -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o close.o close.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -finline-functions -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o errno.o errno.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -finline-functions -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o write.o write.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -finline-functions -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o dup.o dup.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -finline-functions -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o setsid.o setsid.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -finline-functions -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o execve.o execve.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -finline-functions -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o wait.o wait.c
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -m32 -finline-functions -fno-stack-protector -nostdinc -fno-builtin -g -I../include \
+-c -o string.o string.c
+ar rcs lib.a ctype.o _exit.o open.o close.o errno.o write.o dup.o setsid.o execve.o wait.o string.o
+sync
+make[1]: Leaving directory '/home/makisa/Downloads/LINUX-0.01/linux-0.01-master/lib'
+ld -m  elf_i386  -M -Ttext 0 -e startup_32 boot/head.o init/main.o \
+kernel/kernel.o mm/mm.o fs/fs.o \
+lib/lib.a \
+-o tools/system > System.map
+(echo -n "SYSSIZE = (";stat -c%s tools/system \
+	| tr '\012' ' '; echo "+ 15 ) / 16") > tmp.s	
+cat boot/boot.s >> tmp.s
+as86 -0  -o boot/boot.o tmp.s
+00286                                           /*
+00287                                            * This procedure turns off the floppy drive motor, so
+00288                                            * that we enter the kernel in a known state, and
+00289                                            * don't have to worry about it later.
+00290                                            */
+00286                                           /*
+00287                                            * This procedure turns off the floppy drive motor, so
+00288                                            * that we enter the kernel in a known state, and
+00289                                            * don't have to worry about it later.
+00290                                            */
+rm -f tmp.s
+ld86 -0 -s -o boot/boot boot/boot.o
+gcc -Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -fno-stack-protector -fno-builtin -g -m32 \
+-o tools/build tools/build.c
+#chmem +65000 tools/build
+objcopy  -O binary -R .note -R .comment tools/system tools/system.bin
+tools/build boot/boot tools/system.bin > Image
