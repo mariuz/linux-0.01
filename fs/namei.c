@@ -50,7 +50,7 @@ static int permission(struct m_inode * inode,int mask)
  *
  * NOTE! unlike strncmp, match returns 1 for success, 0 for failure.
  */
-static int match(int len,const char * name,struct dir_entry * de)
+__attribute__((noinline)) int match(int len,const char * name,struct dir_entry * de)
 {
 	register int same __asm__("ax");
 
