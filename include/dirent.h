@@ -8,7 +8,7 @@
 #define NAME_MAX NAME_LEN
 
 struct dirent{
-	long d_ino;
+	unsigned long d_ino; //long d_ino;
 	off_t d_off;
 	unsigned short d_reclen;
 	char d_name[256];
