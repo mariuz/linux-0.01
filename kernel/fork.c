@@ -13,6 +13,9 @@
 
 extern void write_verify(unsigned long address);
 
+/* It is necessary that there is no warning. */
+extern void memcpy(struct task_struct *, struct task_struct *, long int);
+
 long last_pid=0;
 
 void verify_area(void * addr,int size)
