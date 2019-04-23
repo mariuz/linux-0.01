@@ -221,13 +221,13 @@ func_table:
 
 key_map:
 	.byte 0,27
-	.ascii "1234567890+'"
+	.ascii "1234567890-="	/* .ascii "1234567890+'" */
 	.byte 127,9
-	.ascii "qwertyuiop}"
-	.byte 0,10,0
-	.ascii "asdfghjkl|{"
-	.byte 0,0
-	.ascii "'zxcvbnm,.-"
+	.ascii "qwertyuiop[]"	/* .ascii "qwertyuiop}" */
+	.byte 10,0 				/* .byte 0,10,0 */
+	.ascii "asdfghjkl;'`"	/* .ascii "asdfghjkl|{" */
+	.byte 0					/* .byte 0,0 */
+	.ascii "\\zxcvbnm,./"
 	.byte 0,'*,0,32		/* 36-39 */
 	.fill 16,1,0		/* 3A-49 */
 	.byte '-,0,0,0,'+	/* 4A-4E */
@@ -237,13 +237,13 @@ key_map:
 
 shift_map:
 	.byte 0,27
-	.ascii "!\"#$%&/()=?`"
+	.ascii "!@#$%^&*()_+"	/* .ascii "!\"#$%&/()=?`" */
 	.byte 127,9
-	.ascii "QWERTYUIOP]^"
+	.ascii "QWERTYUIOP{}"	/* .ascii "QWERTYUIOP]^" */
 	.byte 10,0
-	.ascii "ASDFGHJKL\\["
-	.byte 0,0
-	.ascii "*ZXCVBNM;:_"
+	.ascii "ASDFGHJKL:\"~"	/* .ascii "ASDFGHJKL\\[" */
+	.byte 0			  	/* .byte 0,0 * */
+	.ascii "|ZXCVBNM<>?_" 	/* .ascii "*ZXCVBNM;:_" */
 	.byte 0,'*,0,32		/* 36-39 */
 	.fill 16,1,0		/* 3A-49 */
 	.byte '-,0,0,0,'+	/* 4A-4E */
