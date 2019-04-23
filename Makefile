@@ -48,7 +48,7 @@ tools/system:	boot/head.o init/main.o \
 	$(ARCHIVES) \
 	$(LIBS) \
 	-o tools/system > System.map
-
+	
 kernel/kernel.o:
 	(cd kernel; make)
 
@@ -71,6 +71,9 @@ boot/boot:	boot/boot.s tools/system
 	
 run:
 	qemu-system-i386 -drive format=raw,file=Image,index=0,if=floppy -boot a -hdb hd_oldlinux.img -m 8 -machine pc-0.10
+	
+dump:
+	objdump -D --disassembler-options=intel tools/system > System.dum
 
 clean:
 	rm -f Image System.map tmp_make boot/boot core
