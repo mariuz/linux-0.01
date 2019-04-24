@@ -1,3 +1,5 @@
+linux-0.01 On Ubuntu 18.04 with GCC-7.3
+
 First of all, thanks Mariuz!
 
 After a lot of time, I managed to compile this revised version of the first kernel on machines with Ubuntu 18.04 64 and 32 bit versions. So you can compile them and try them on 64 and 32 bit Intel machines.
