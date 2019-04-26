@@ -14,6 +14,6 @@ But the general  problem is creating new files and writing in them. The app "tou
 The app "cat" can read existing files and app "echo" can't writing in files...
 I will try to fix this.
 
-Enjoy work and improvement
+Enjoy work and improvement.
 sincerely 
 Isoux
