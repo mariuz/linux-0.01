@@ -11,7 +11,7 @@ and qemu runs from the cmd line by the command: make run, but first unzip the fi
 
 The error I noticed after initializing the system is that the app "vim" (if you try) has a problem with opening files.
 But the general  problem is creating new files and writing in them. The app "touch" works smoothly. 
-The app "cat" can read existing files and app "echo" can't writing in files...
+The app "cat" can read existing files and app "echo" can't writing in files.
 I will try to fix this.
 
 Enjoy work and improvement.
