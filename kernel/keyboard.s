@@ -242,7 +242,7 @@ shift_map:
 	.ascii "QWERTYUIOP{}"	/* .ascii "QWERTYUIOP]^" */
 	.byte 10,0
 	.ascii "ASDFGHJKL:\"~"	/* .ascii "ASDFGHJKL\\[" */
-	.byte 0			  	/* .byte 0,0 * */
+	.byte 0					/* .byte 0,0 * */
 	.ascii "|ZXCVBNM<>?_" 	/* .ascii "*ZXCVBNM;:_" */
 	.byte 0,'*,0,32		/* 36-39 */
 	.fill 16,1,0		/* 3A-49 */
