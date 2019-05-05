@@ -1,5 +1,5 @@
 2019.05.05:
-	Finally, the problem with creating new files ( with vim, echo and so on) is solved. 
+	Finally, the problem with creating new files (with vim, echo and so on) is solved. 
 	Added one line of code to bitmap.c
 	
 2019.04.23:
