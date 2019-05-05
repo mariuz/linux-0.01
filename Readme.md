@@ -9,11 +9,6 @@ The kernel runs in both emulators: QEMU ver. 2.11.1 and Bochs ver 2.6. and that 
 I also uploaded the bochsrc.txt file so that the bochs runs from the command line from the root where the kernel(Image) is
 and qemu runs from the cmd line by the command: make run, but first unzip the file hd_oldlinux.img.zip.
 
-The error I noticed after initializing the system is that the app "vim" (if you try) has a problem with opening files.
-But the general  problem is creating new files and writing in them. The app "touch" works smoothly. 
-The app "cat" can read existing files and app "echo" can't writing in files.
-I will try to fix this.
-
 Enjoy work and improvement.
 sincerely 
 Isoux
