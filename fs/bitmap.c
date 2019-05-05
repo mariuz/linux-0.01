@@ -81,7 +81,6 @@ int new_block(int dev)
 		return 0;
 	sb->s_rd_only = 0;
 	if (set_bit(j,bh->b_data)){
-		printk("j = %d\n",j);
 		panic("new_block: bit already set");}
 	bh->b_dirt = 1;
 	j += i*8192 + sb->s_firstdatazone-1;
