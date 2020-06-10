@@ -13,7 +13,7 @@ LD	=ld -m  elf_i386
 LDFLAGS	=-M -Ttext 0 -e startup_32
 #LDFLAGS	=-s -x -M -Ttext 0 -e startup_32
 CC	=gcc
-CFLAGS	=-Wall -O -fstrength-reduce -fomit-frame-pointer -fno-stack-protector -fno-builtin -g -m32
+CFLAGS	=-Wall -O -std=gnu89 -fstrength-reduce -fomit-frame-pointer -fno-stack-protector -fno-builtin -g -m32
 CPP	=gcc -E -nostdinc -Iinclude
 
 ARCHIVES=kernel/kernel.o mm/mm.o fs/fs.o
@@ -48,7 +48,7 @@ tools/system:	boot/head.o init/main.o \
 	$(ARCHIVES) \
 	$(LIBS) \
 	-o tools/system > System.map
-
+	
 kernel/kernel.o:
 	(cd kernel; make)
 
@@ -68,6 +68,12 @@ boot/boot:	boot/boot.s tools/system
 	$(AS86) -o boot/boot.o tmp.s
 	rm -f tmp.s
 	$(LD86) -s -o boot/boot boot/boot.o
+	
+run:
+	qemu-system-i386 -drive format=raw,file=Image,index=0,if=floppy -boot a -hdb hd_oldlinux.img -m 8 -machine pc-0.10
+	
+dump:
+	objdump -D --disassembler-options=intel tools/system > System.dum
 
 clean:
 	rm -f Image System.map tmp_make boot/boot core
@@ -96,3 +102,4 @@ init/main.o : init/main.c include/unistd.h include/sys/stat.h \
   include/linux/sched.h include/linux/head.h include/linux/fs.h \
   include/linux/mm.h include/asm/system.h include/asm/io.h include/stddef.h \
   include/stdarg.h include/fcntl.h 
+

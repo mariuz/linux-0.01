@@ -261,10 +261,11 @@ static void read_intr(void)
 	if (this_request->nsector==2){
 		this_request->nsector--;
 		port_read(HD_DATA,this_request->bh->b_data,256);
+		return;
 	}
 	else{
 		port_read(HD_DATA,this_request->bh->b_data+512,256);
-		return;
+		//return;
 	}
 
 	this_request->errors = 0;

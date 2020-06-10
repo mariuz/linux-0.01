@@ -68,7 +68,7 @@ int main(int argc, char ** argv)
  	 * size is < 512 bytes ) 
  	 */
 	memset(buf,0,512);
-	write(1,buf,512);	
+	//write(1,buf,512);	
 
 	close(id);
 	fprintf(stderr,"System %d bytes.\n",i);

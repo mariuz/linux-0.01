@@ -79,8 +79,9 @@ int new_block(int dev)
 				break;
 	if (i>=8 || !bh || j>=8192)
 		return 0;
-	if (set_bit(j,bh->b_data))
-		panic("new_block: bit already set");
+	sb->s_rd_only = 0;
+	if (set_bit(j,bh->b_data)){
+		panic("new_block: bit already set");}
 	bh->b_dirt = 1;
 	j += i*8192 + sb->s_firstdatazone-1;
 	if (j >= sb->s_nzones)

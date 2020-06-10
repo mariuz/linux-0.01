@@ -1,0 +1,11 @@
+2019.05.05:
+	Finally, the problem with creating new files (with vim, echo and so on) is solved. 
+	Added one line of code to bitmap.c
+	
+2019.04.23:
+	The code is changed to remove all warnings when compiling it.
+	I changed key_map from Finland to English keyboard.
+
+2019.04.18:
+	Repo forked from mariuz/linux-0.01.
+	Did first pull request.

@@ -1,5 +1,5 @@
 CC	=gcc
-CFLAGS	=-O -Wall -fstrength-reduce  -fomit-frame-pointer -m32 \
+CFLAGS	=-Wall -O -std=gnu89 -fstrength-reduce  -fomit-frame-pointer -m32 \
 	-fno-stack-protector -finline-functions -nostdinc -fno-builtin -g -I../include
 AS	=as --32
 AR	=ar 
