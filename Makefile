@@ -71,6 +71,9 @@ boot/boot:	boot/boot.s tools/system
 	
 run:
 	qemu-system-i386 -drive format=raw,file=Image,index=0,if=floppy -boot a -hdb hd_oldlinux.img -m 8 -machine pc-0.10
+
+run-curses:
+	qemu-system-i386 -display curses -drive format=raw,file=Image,index=0,if=floppy -boot a -hdb hd_oldlinux.img -m 8 -machine pc-i440fx-1.4
 	
 dump:
 	objdump -D --disassembler-options=intel tools/system > System.dum
